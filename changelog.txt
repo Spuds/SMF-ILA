@@ -1,0 +1,117 @@
+Changelog
+[b]1.11 - 21 Mar 2011[/b]
+o ! fixed issue where an ILA tag in a quote would not correctly render a back link
+o ! minor code formatting updates
+o ! update for portaMX RC 1.0 tahnks to r2d2-trader
+
+[b]1.10 - 19 Feb 2011[/b]
+o + RC5 support
+o ! fixed a real_width, real_height undefined index error log spam
+o ! fixed error when called from news.php via rss feeds
+o ! fixed potential issue where a normal below the post attachment may not show up after a quoted block with ila tags in the quote
+o ! fixed improper nesting of attachments array when loaded by ILA
+
+[b]1.09 - 19 Dec 2010[/b]
+o + added Danish Translation (thanks henrik1782)
+o ! fixed undefined index error where javascript image code was not being set by smf
+o ! fixed issue where you had to toggle the basic menu item on/off to get the full menu
+
+[b]1.08 - 08 Nov 2010[/b]
+o + added support for RC4
+
+[b]1.07 - 03 Sept 2010[/b]
+o + added support for HS4SMF so inline images will highslide if HS4SMF mod is installed
+o + changed dependency on global variable to improve footprint
+o ! prevent rendering of ILA tags when PortalMX is showing its front page as both load Display.template.php which causes a redeclare template_main() error.
+o + added Russian (thanks Bugo), German (thanks Mave), Dutch (thanks sander76) and Portuguese (thanks Fernando_CD) translations
+o ! fixed issue where the attach tag was not being inserted in to the WYSIWYG editor via the attachment pull down
+o + added basic menu admin option, basic will only show one ILA item in the pull down box although all tags if manually entered will still work.
+
+[b]1.06 Beta - 30 March 2010[/b]
+o ! More improvements to quote and nested quote capabilities
+o + Added proper rendering of quotes in previews
+o ! Fixed a couple of error log issues
+
+[b]1.05 Beta - 14 March 2010[/b]
+o + Major Improvements to quote and nested quote capabilities, now it will render more link to attachment links and handle nested quotes much better
+o ! Fixed highslide rendering (if enabled) error introduced in final alpha version
+
+[b]1.04 Beta - 12 March 2010[/b]
+o ! Fixed error with SMF adding closing tags for all the attach bbc tags.  This appears with RC3/WYSIWYG editor turned on.
+
+[b]1.03 Beta - 8 March 2010[/b]
+o ! Fixed issues with notice errors in SMF log due to un initialized variables
+o ! Fixed auto increment function to work with non uploaded attachments in preview
+
+[b]1.02 Beta - 7 March 2010[/b]
+o ! Fixed issue with ilaexpandthumb not running when viewing ILA attachments from new posts / posts of user / etc
+o + moved ilaexpandthumb to its own file to help with above
+
+[b]1.01 Beta - 6 March 2010[/b]
+o ! Fixed wrong function name in validation check
+o - Removed the hash/pound/number symbol as it was not internationally recognized
+o + Further improvements to the pseudo view on new,yet to be uploaded, attachments.  They now appear as blank boxes with the appropriate text and will respond to width and align attributes 
+o ! Permission updates in an attempt to fix the view new since last visit problem
+
+[b]1.0 Beta - 3 March 2010[/b]
+o + First Beta release, which means no more new features only fixes and updates for now
+o + Added ability to pseudo view ILA attachments when previewing a new post or when adding new attachments to an existing post.  Basically this allows you to see the filename of the attachment in preview mode so you can ensure the right files are in the right places.
+o ! fixed small error in last install package which created a duplicate post2 line
+o + added some new message text to support new features
+
+[b]1.12 Alpha - 28 February 2010[/b]
+o + Added ability to view ILA attachments in many areas including preview when editing an existing post, viewing posts by user, in the topic summary when modifying or replying to a topic
+o - depreciated attachthumb, it will still work but will render as attach
+o + attach will now always show a thumbnail, even if none was created by SMF, instead of showing a full sized image when no thumbnail was available
+o ! updated message text
+
+[b]1.11 - 23 February 2010[/b]
+o ! update to check for index existence to prevent error log notices ... I'm sure there are more
+o ! Further fixs for the elusive out of order attachments when modifying a post, Rocky III
+
+[b]1.10 - 22 February 2010[/b]
+o ! fix for out of order attachments when modifying a post, Part II, maybe still a sequel to come
+
+[b]1.09 - 21 February 2010[/b]
+o ! fix out of order selection box on multi attach, really maybe this time
+o ! fix for out of order attachments when modifying a post, SMF did not sort the attachment array on post mod (did for display).
+
+[b]1.08 - 19 February 2010[/b]
+o ! fix error when non-images were attached via attach= generated a fatal error in ila_subs
+o ! fix error where 'attach' tags were being displayed instead of being replaced with 'no permissions' text
+o ! fix out of order selection box on multi attach
+
+[b]1.07 - 18 February 2010[/b]
+o ! fix error with thumbnails or images not expanding to there normal size on click.
+
+[b]1.06 - 16 February 2010[/b]
+o + add support for attachment= tag to help in transition from other 1.1 mods
+o ! fix error with highslide rel tag, all images in a topic were set to the same rel value instead of by post id
+
+[b]1.05 - 04 February 2010[/b]
+o ! fix error with attach= tag not displaying correctly in ie8
+o + update the image insert text to be more clear what each option does
+o + updates and corrections the help displayed when the user clicks on the ?
+o ! fix error with attach= tag displaying a full size image when it should in fact be displaying a thumbnail
+
+[b]1.04 - 03 February 2010[/b]
+o ! fix onclick javascript from inserting meaningless normal attachment text into the message body
+o ! fix attachment description to tag discrepancy, the pull down text and inserted tags were not correctly matched
+
+[b]1.03 - 01 February 2010[/b]
+o ! fix error log notice for display template when viewing a post with no ILA attachments
+o ! fix error log notice for undefined index for special cases of attach
+o + added support for php4 with str_ireplace and stripos substitue functions in ila_subs
+
+[b]1.02 - 23 January 2010[/b]
+o ! fix for width=0 error causing images not to appear
+
+[b]1.01 - 22 January 2010[/b]
+o + [attach] tag for quick entry [attach] bing bang boom [attach] is the equivalent of [attach=1] bing bang boom [attach=2].  If you want a specific attachment in a specific location use the long form [attach=1]
+o + quick entry for all tags works as well ie [attachurl=1] is the same as [attachurl] 
+o + check to allow [attach=#1] entries, so [attach=#1] is the same as [attach=1]
+o ! fixed what [attach=#] should be doing. So if there is a thumbnail display it as a click-able thumb, if not display the image in full size up to the allowed forum size (if bigger its click-able), if not an image just display the url link.  
+o + first attempt at updating quoted text that has tags to link back to the post with the attachment or at least the previous post. 
+ 
+[b]1.0 - 20 January 2010[/b]
+o Alpha release

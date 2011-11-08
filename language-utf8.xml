@@ -1,0 +1,508 @@
+<?xml version="1.0"?>
+<!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
+<modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
+<id>spuds:ILA</id>
+	
+<file name="$languagedir/Modifications.english-utf8.php" error="skip">
+	<operation>
+		<search position="end" />
+		<add><![CDATA[
+		
+//Begin ILA in line attachment changes
+$txt['mods_cat_modifications_ila'] = 'In Line Attachments';
+$txt['ila_desc'] = 'This section allows you to setup the In Line Attachment modification';
+$txt['ila_enabled'] = '(ILA) Enable the in line attachment modification';
+$txt['ila_alwaysfullsize'] = '(ILA) Force inline images to always be full size';
+$txt['ila_basicmenu'] = '(ILA) Only show basic ILA menu';
+$txt['ila_insert'] = 'Insert Attachment';
+$txt['ila_title'] = 'End-of-post expandable thumbnail ';
+$txt['ila_option1'] = 'Inline expandable thumbnail';
+$txt['ila_option2'] = 'Inline full-size image';
+$txt['ila_option3'] = 'Inline text link';
+$txt['ila_option4'] = 'Inline short text link';
+$txt['ila_nopermission'] = ' [ You are not authorized to view attachments ] ';
+$txt['ila_invalid'] = ' [ Attachment Invalid Or Does Not Exist ] ';
+$txt['ila_disabled'] = ' [ Attachments Disabled ] ';
+$txt['ila_insert_next'] = ' in the message';
+$txt['ila_attachment_missing'] = ' [ Specified attachment is not available ]';
+$txt['ila_thereare'] = 'There are only';
+$txt['ila_attachment'] = 'attachment(s)';
+$txt['ila_forbidden_for_guest'] = ' [ Guests cannot view attachments ] ';
+$txt['ila_quote_link'] = ' (Attachment Link) ';
+$txt['ila_quote_nolink'] = ' (Attachment) ';
+$txt['ila_none'] = 'as expandable thumbnail';
+$txt['ila_img'] = 'as full-size graphic';
+$txt['ila_url'] = 'as a link';
+$txt['ila_mini'] = 'as a compact link';
+//End ILA in line attachment changes
+]]></add>
+	</operation>
+</file>
+
+<file name="$languagedir/Help.english-utf8.php" error="skip">
+	<operation>
+		<search position="end" />
+		<add><![CDATA[//ILA in line attachment changes
+$helptxt['ILA_InLineAttachments_help'] = '<b>Add an inline attachment</b><br />
+		Example:
+		<br /><b>[attachimg=1 align=left width=400]</b>
+		<br />This will show a left-aligned image resized to 400 pixels wide with the post text flowing around it. Execpt for the attachment tag and its number all other parameters are optional
+		<br /><b>[attach=1]</b>
+		<br />This will show the attachment as a thumbnail if available, if no thumbnail is available it will use a full sized image.  The image will be in line with the text of your post.
+		<br /><br />
+		<b>Options:</b>
+		<br />attach=x, attachimg=x, attachurl=x, attachmini=x where x is the attachment number
+		<br />align=left, center, right
+		<br />width=### (number in pixels)
+		<br />
+        <h3>Modes available</h3>
+        <p>
+            You can choose the inline mode you want for your attachment:
+            <ul>
+                <li><u>Thumbnail [attach=x]</u> Your image will be shown as a thumbnail</li>
+                <li><u>Full-size Image [attachimg=x]</u> Your image will be shown using its full dimensions up to the viewing size allowed by the forum.  Images larger than the viewing size allowed by the forum will be displayed at the forum maximum and be click-able to full size</li>
+                <li><u>Text Link [attachurl=x]</u> Only a link is show with size and view details. By clicking on it, the image is displayed.</li>
+                <li><u>Short Text Link [attachmini=x]</u> Only a link is shown without any details. By clicking on it, the image is displayed.</li>
+            </ul>
+        </p><br />
+		<p>
+			You can choose how to align the inline image:
+			<ul>
+				<li><u>align=left</u> The image is aligned to the left and the text will flow around it</li>
+				<li><u>align=right</u> The image is aligned to the right and the text will flow around it</li>
+				<li><u>align=center</u> The image is centered and the text will be below it</li>
+			</ul>
+		</p><br />
+		<p>
+			You can choose how wide to show the image:
+			<ul>
+				<li><u>width=123</u> The image is displayed 123pixels wide</li>
+				<li>If the width specified is larger than the image or larger than the forum allows the largest allowable width will be used</li>
+				<li>Can be used to shrink a thumbnail as well [attach=1 width=50] will display a 50px wide thumbnail
+			</ul>
+		</p><br />
+        <h3>How to use it?</h3>
+        <p>
+            <h4>Step 1 :</h4>
+            In the file selection, select the attachment file you want to upload;
+            <h4>Step 2 :</h4>
+            Select the inline mode, if any, you want using the list box "Inline modes";
+            <h4>Step 3 :</h4>
+            Repeat the steps for each attachment you want to upload. Move and edit the tags in the message body to suit your needs.
+        </p>
+';
+//End ILA in line attachment changes
+			]]></add>
+	</operation>
+</file>
+
+<file name="$languagedir/Modifications.russian-utf8.php" error="skip">
+	<operation>
+		<search position="end" />
+		<add><![CDATA[
+//Begin ILA in line attachment changes
+$txt['mods_cat_modifications_ila'] = 'In Line Attachments';
+$txt['ila_desc'] = 'Здесь можно изменить установки модификации In Line Attachment';
+$txt['ila_enabled'] = '(ILA) Активировать мод In Line Attachment';
+$txt['ila_alwaysfullsize'] = '(ILA) Все вложенные изображения ВСЕГДА отображать в полном размере';
+$txt['ila_basicmenu'] = '(ILA) Only show basic ILA menu';
+$txt['ila_insert'] = 'Вставить вложение';
+$txt['ila_title'] = 'Миниатюра в конце сообщения (по умолчанию) ';
+$txt['ila_option1'] = 'Миниатюра внутри сообщения';
+$txt['ila_option2'] = 'Полноразмерное изображение в сообщении';
+$txt['ila_option3'] = 'Текстовая ссылка в сообщении';
+$txt['ila_option4'] = 'Короткая текстовая ссылка в сообщении';
+$txt['ila_nopermission'] = ' [ Вы не авторизованы для просмотра вложений ] ';
+$txt['ila_invalid'] = ' [ Вложение повреждено или не существует ] ';
+$txt['ila_disabled'] = ' [ Вложения отключены ] ';
+$txt['ila_insert_next'] = ' в сообщение';
+$txt['ila_attachment_missing'] = ' [ Указанное вложение недоступно ]';
+$txt['ila_thereare'] = 'Только';
+$txt['ila_attachment'] = 'вложений';
+$txt['ila_forbidden_for_guest'] = ' [ Гостям не разрешен просмотр вложений ] ';
+$txt['ila_quote_link'] = ' (Ссылка на вложение) ';
+$txt['ila_quote_nolink'] = ' (Вложение) ';
+$txt['ila_none'] = 'как миниатюра';
+$txt['ila_img'] = 'как полноразмерное изображение';
+$txt['ila_url'] = 'как ссылка';
+$txt['ila_mini'] = 'как короткая ссылка';
+//End ILA in line attachment changes
+]]></add>
+	</operation>
+</file>
+
+<file name="$languagedir/Help.russian-utf8.php" error="skip">
+	<operation>
+		<search position="end" />
+		<add><![CDATA[
+//ILA in line attachment changes
+$helptxt['ILA_InLineAttachments_help'] = '<b>Добавление вложений в текст сообщений</b><br />
+		Образец:
+		<br /><b>[attachimg=1 align=left width=400]</b>
+		<br />Будет выведено изображение шириной 400 пикселов, выравненное по левому краю. За исключением первого тега и номера вложения все остальные параметры не обязательны
+		<br /><b>[attach=1]</b>
+		<br />В тексте сообщения появится миниатюра вложения (если это изображение). Если миниатюры не окажется, будет выведено полноразмерное изображение.
+		<br /><br />
+		<b>Параметры:</b>
+		<br />attach=x, attachimg=x, attachurl=x, attachmini=x, где x — номер вложения
+		<br />align=left, center, right
+		<br />width=### (число в пикселах)
+		<br />
+        <h3>Доступные режимы</h3>
+        <p>
+            Вы можете выбирать различные режимы вставки вложений:
+            <ul>
+                <li><u>Миниатюра [attach=x]</u> Изображение будет отображаться в виде эскиза (превью)</li>
+                <li><u>Полноразмерное изображение [attachimg=x]</u> Изображение будет отображаться в полный размер. Для слишком больших изображений будут использоваться полосы прокрутки</li>
+                <li><u>Текстовая ссылка [attachurl=x]</u> В сообщении будет отображаться только ссылка на вложение, а также некоторые детали.</li>
+                <li><u>Короткая текстовая ссылка [attachmini=x]</u> В сообщении будет отображаться только ссылка на вложение, без каких-либо деталей.</li>
+            </ul>
+        </p><br />
+		<p>
+			Вы можете выбирать тип выравнивания вложения внутри сообщения:
+			<ul>
+				<li><u>align=left</u> Изображение будет отображаться в левой части сообщения, текст — справа</li>
+				<li><u>align=right</u> Изображение будет отображаться в правой части сообщения, текст — слева</li>
+				<li><u>align=center</u> Изображение будет отображаться в центре сообщения, текст — ниже</li>
+			</ul>
+		</p><br />
+		<p>
+			Вы можете указывать ширину вложенных изображений:
+			<ul>
+				<li><u>width=123</u> Ширина отображаемого изображения будет изменена до 123 пикселов</li>
+				<li>В случае указания ширины, превышающей реальную, будет использована максимально допустимая ширина, разрешенная на форуме</li>
+				<li>Можно использовать уменьшение миниатюры, например [attach=1 width=50]
+			</ul>
+		</p><br />
+        <h3>Как это использовать?</h3>
+        <p>
+            <h4>Шаг 1 :</h4>
+            При создании сообщения выберите «Дополнительные опции», затем в секции «Вложение» укажите файл, который хотите загрузить;
+            <h4>Шаг 2 :</h4>
+            Укажите режим вставки в текст сообщения — выбрав одно из значений в раскрывающемся списке справа;
+            <h4>Шаг 3 :</h4>
+            Повторите предыдущие шаги для каждого вложения, которое захотите загрузить. Перемещайте и изменяйте теги в тексте вложения, как посчитаете нужным.
+        </p>
+';
+//End ILA in line attachment changes
+]]></add>
+	</operation>
+</file>
+
+<file name="$languagedir/Modifications.german-utf8.php" error="skip">
+	<operation>
+		<search position="end" />
+		<add><![CDATA[
+
+//Begin ILA in line attachment changes
+$txt['mods_cat_modifications_ila'] = 'In Line Attachments';
+$txt['ila_desc'] = 'Setupbereich von der In Line Attachment Modifikation';
+$txt['ila_enabled'] = '(ILA) In Line Attachment Modifikation aktivieren';
+$txt['ila_alwaysfullsize'] = '(ILA) Inline Bilder immer in Orginalgröße zeigen';
+$txt['ila_basicmenu'] = '(ILA) Only show basic ILA menu';
+$txt['ila_insert'] = 'Dateianhang einfügen';
+$txt['ila_title'] = 'Am Ende vergrößerbare Miniaturansicht ';
+$txt['ila_option1'] = 'Im Text vergrößerbare Miniaturansicht';
+$txt['ila_option2'] = 'Im Text orginalgroßes Bild';
+$txt['ila_option3'] = 'Im Text als Textlink';
+$txt['ila_option4'] = 'Im Text als kurzer Textlink';
+$txt['ila_nopermission'] = ' [ Ihnen ist es nicht erlaubt Dateianhänge zu sehen ] ';
+$txt['ila_invalid'] = ' [ Dateianhang ungültig oder nicht vorhanden ] ';
+$txt['ila_disabled'] = ' [ Dateianhänge sind deaktiviert ] ';
+$txt['ila_insert_next'] = ' in der Nachricht';
+$txt['ila_attachment_missing'] = ' [ Ausgewählter Dateianhang ist vorhanden ]';
+$txt['ila_thereare'] = 'Es sind nur';
+$txt['ila_attachment'] = 'Dateianhänge';
+$txt['ila_forbidden_for_guest'] = ' [ Für Gäste keine Dateianhänge sichtbar] ';
+$txt['ila_quote_link'] = ' (Dateianhang Link) ';
+$txt['ila_quote_nolink'] = ' (Dateianhang) ';
+$txt['ila_none'] = 'als vergrößerbare Miniaturansicht';
+$txt['ila_img'] = 'als Bild in Orginalgröße';
+$txt['ila_url'] = 'als einen Link';
+$txt['ila_mini'] = 'als einen Kurzlink';
+//End ILA in line attachment changes
+]]></add>
+	</operation>
+</file>
+
+<file name="$languagedir/Help.german-utf8.php" error="skip">
+	<operation>
+		<search position="end" />
+		<add><![CDATA[//ILA in line attachment changes
+$helptxt['ILA_InLineAttachments_help'] = '<b>Ein Inlineattachment hinzufügen</b><br />
+		Beispiel:
+		<br /><b>[attachimg=1 align=left width=400]</b>
+		<br />Das Bild wird linksbündig in der Größe, 400 Pixeln breit, angezeigt. Der Textfluss ist umlaufend. Der Dateianhangscode und seine Nummer sind zwingend erforderlich, die weiteren Parameter sind optional.
+		<br /><b>[attach=1]</b>
+		<br />Dadurch wird der Dateianhang als ein Thumbnail, falls benötigt, angezeigt. Ansonsten wird es in voller Größe angezeigt. Das Bild wird im Textfluss direkt angezeigt.
+		<br /><br />
+		<b>Optionen:</b>
+		<br />attach=x, attachimg=x, attachurl=x, attachmini=x (Das x ist die Dateianhangsnummer).
+		<br />align=left, center, right
+		<br />width=### (Zahl in Pixel)
+		<br />
+        <h3>Verfügbare Modi</h3>
+        <p>
+            Sie können verschiedene Modi für die Dateianhänge wählen:
+            <ul>
+                <li><u>Im Text vergrößerbare Miniaturansicht [attach=x]</u> Das Bild wird als eine Miniaturansicht angezeigt.</li>
+                <li><u>Im Text orginalgroßes Bild [attachimg=x]</u>  Ihr Bild wird in Orginalgröße angezeigt oder bis zur erlaubten Größe des Forums. Bilder, die größer als die erlaubte Größe sind können per Klick auf Orginalgröße vergrößert werden.</li>
+                <li><u>Im Text als Textlink [attachurl=x]</u> Es wird nur ein Textlink gezeigt. Wird dieser Link angeklickt, öffnet sich das Bild.</li>
+                <li><u>Im Text als kurzer Textlink [attachmini=x]</u> Es wird nur ein Textlink angezeigt OHNE weitere Details. Wird dieser Link angeklickt, öffnet sich das Bild..</li>
+            </ul>
+        </p><br />
+		<p>
+			Sie können verschiedene Ausrichtungen der Dateianhänge wählen:
+			<ul>
+				<li><u>align=left</u> Das Bild ist links ausgerichtet und der Text wird um ihn herum fließen</li>
+				<li><u>align=right</u> Das Bild ist rechts ausgerichtet und der Text wird um ihn herum fließen</li>
+				<li><u>align=center</u> Das Bild wird zentriert ausgerichtet und der Text darunter.</li>
+			</ul>
+		</p><br />
+		<p>
+			Sie können verschiedene Anzeigegrößen der Dateianhänge wählen:
+			<ul>
+				<li><u>width=123</u> Das Bild wird 123 Pixel breit angezeigt.</li>
+				<li>Ist die angegebe Breite größer als das Bild oder größer als die vom Forum erlaubte Breite wird diese verwendet.</li>
+				<li>[attach=1 width=50] Kann benutzt werden um noch kleiner Miniaturansichten darzustellen
+			</ul>
+		</p><br />
+        <h3>Wie benutzt man es?</h3>
+        <p>
+            <h4>Schritt 1 :</h4>
+            Wählen die Datei aus, welche Sie hochladen möchten ;
+            <h4>Schritt 2 :</h4>
+            Wählen Sie den Inline-Modus aus, den Sie nutzen möchten aus der Liste aus;
+            <h4>Schritt 3 :</h4>
+            Wiederholen Sie die Schritte 1 und 2 für jeden Dateianhang, den Sie hochladen möchten und bearbeiten das Textfeld wie gewünscht.</p>
+';
+//End ILA in line attachment change
+			]]></add>
+	</operation>
+</file>
+
+<file name="$languagedir/Modifications.dutch-utf8.php" error="skip">
+	<operation>
+		<search position="end" />
+		<add><![CDATA[
+
+//Begin ILA in line attachment changes
+$txt['mods_cat_modifications_ila'] = 'In Line Attachments';
+$txt['ila_desc'] = 'Deze sectie stelt u in staat de In Line Attachment modificatie in te stellen';
+$txt['ila_enabled'] = '(ILA) Schakel de in line attachment modificatie in';
+$txt['ila_alwaysfullsize'] = '(ILA) Dwing inline afbeeldingen om altijd op de maximale grootte weer te geven';
+$txt['ila_basicmenu'] = '(ILA) Only show basic ILA menu';
+$txt['ila_insert'] = 'Voeg bijlage in';
+$txt['ila_title'] = 'Vergrootbare thumbnail aan het einde van het bericht ';
+$txt['ila_option1'] = 'Inline vergrootbare thumbnail';
+$txt['ila_option2'] = 'Inline afbeelding op maximale grootte';
+$txt['ila_option3'] = 'Inline tekstlink';
+$txt['ila_option4'] = 'Inline korte tekstlink';
+$txt['ila_nopermission'] = ' [ U bent niet geauthoriseerd bijlagen te bekijken ] ';
+$txt['ila_invalid'] = ' [ Bijlage is ongeldig of bestaat niet ] ';
+$txt['ila_disabled'] = ' [ Attachments Disabled ] ';
+$txt['ila_insert_next'] = ' in het bericht';
+$txt['ila_attachment_missing'] = ' [ Gespecificeerde bijlage is niet beschikbaar ]';
+$txt['ila_thereare'] = 'Er zijn slechts';
+$txt['ila_attachment'] = 'bijlage(n)';
+$txt['ila_forbidden_for_guest'] = ' [ Gasten kunnen geen bijlagen bekijken ] ';
+$txt['ila_quote_link'] = ' (Link naar bijlage) ';
+$txt['ila_quote_nolink'] = ' (Bijlage) ';
+$txt['ila_none'] = 'als vergrootbare thumbnail';
+$txt['ila_img'] = 'als afbeelding met maximale grootte';
+$txt['ila_url'] = 'als een link';
+$txt['ila_mini'] = 'als een compacte link';
+//End ILA in line attachment changes
+]]></add>
+	</operation>
+</file>
+
+<file name="$languagedir/Modifications.portuguese-utf8.php" error="skip">
+	<operation>
+		<search position="end" />
+		<add><![CDATA[
+
+//Begin ILA in line attachment changes
+$txt['mods_cat_modifications_ila'] = 'Imagens Inseridas na Mensagem';
+$txt['ila_desc'] = 'Esta secção permite-lhe definir a modificação In Line Attachment (ILA)';
+$txt['ila_enabled'] = '(ILA) Activar a modificação In Line Attachment';
+$txt['ila_alwaysfullsize'] = '(ILA) As imagens terão sempre a dimensão total';
+$txt['ila_basicmenu'] = '(ILA) Only show basic ILA menu';
+$txt['ila_insert'] = 'Inserir Anexo';
+$txt['ila_title'] = 'Mini-imagem no final da mensagem ';
+$txt['ila_option1'] = 'Mini-imagem expansível no texto';
+$txt['ila_option2'] = 'Imagem total no texto';
+$txt['ila_option3'] = 'Ligação completa em texto';
+$txt['ila_option4'] = 'Ligação abreviada em texto';
+$txt['ila_nopermission'] = ' [ Não tem permissão para ver imagens inseridas ] ';
+$txt['ila_invalid'] = ' [ Ficheiro anexo inválido ou não existente ] ';
+$txt['ila_disabled'] = ' [ Anexos não permitidos ] ';
+$txt['ila_insert_next'] = ' na mensagem';
+$txt['ila_attachment_missing'] = ' [ O anexo especificado não está disponível ]';
+$txt['ila_thereare'] = 'Há apenas';
+$txt['ila_attachment'] = 'anexo(s)';
+$txt['ila_forbidden_for_guest'] = ' [ Visitantes não podem ver os anexos ] ';
+$txt['ila_quote_link'] = ' (Ligação para o anexo) ';
+$txt['ila_quote_nolink'] = ' (Anexo) ';
+$txt['ila_none'] = 'como mini-imagem expansível';
+$txt['ila_img'] = 'como imagem total';
+$txt['ila_url'] = 'como uma ligação';
+$txt['ila_mini'] = 'como uma ligação compacta';
+//End ILA in line attachment changes
+]]></add>
+	</operation>
+</file>
+
+
+<file name="$languagedir/Help.portuguese-utf8.php" error="skip">
+	<operation>
+		<search position="end" />
+		<add><![CDATA[//ILA in line attachment changes
+$helptxt['ILA_InLineAttachments_help'] = '<b>Adicionar uma imagem no texto</b><br />
+   Exemplo:
+   <br /><b>[attachimg=1 align=left width=400]</b>
+   <br />Este exemplo irá mostrar uma imagem alinhada à esquerda redimensionada para 400 pixels de largura com o texto à direita. À excepção de "attachimg" e do número, todos os outros parâmetros são opcionais.
+   <br /><b>[attach=1]</b>
+   <br />Este exemplo irá mostrar a imagem em formato mini, se estiver disponível. Se não estiver disponível, mostra a imagem na dimensão total. A imagem estará inserida no texto da sua mensagem.
+   <br /><br />
+   <b>Opções:</b>
+   <br />attach=x, attachimg=x, attachurl=x, attachmini=x em que x é o número do anexo
+   <br />align=left, center, right (alinhado à esquerda, centro ou direita)
+   <br />width=### (número de pixels)
+   <br />
+<h3>Modos disponíveis</h3>
+<p>
+   Pode seleccionar o modo para inserção da imagem anexa:
+   <ul>
+      <li><u>Mini-imagem [attach=x]</u> Será apresentada a imagem em formato pequeno</li>
+      <li><u>Imagem completa [attachimg=x]</u> A sua imagem será apresentada com a dimensão total até ao máximo permitido pelo forum. As imagens que sejam maiores do que o permitido pelo forum serão apresentadas no máximo permitdo, mas com um clique na imagem verá a dimensão total.</li>
+      <li><u>Ligação em texto [attachurl=x]</u> Apenas será apresentada uma ligação com a dimensão e outros detalhes. Com um clique na ligação verá a imagem.</li>
+      <li><u>Ligação abreviada em texto [attachmini=x]</u> Apenas será apresentada uma ligação sem detalhes. Com um clique na ligação verá a imagem.</li>
+      </ul>
+   </p><br />
+   <p>
+      Pode escolher como fazer o alinhamento da imagem:
+      <ul>
+         <li><u>align=left</u> A imagem é alinhada à esquerda e o texto apresentado à direita da imagem</li>
+         <li><u>align=right</u> A imagem é alinhada à direita e o texto apresentado à esquerda da imagem</li>
+         <li><u>align=center</u> A imagem é centrada com o texto por baixo</li>
+      </ul>
+   </p><br />
+   <p>
+      Pode escolher a largura para a apresentação da imagem:
+      <ul>
+         <li><u>width=123</u> A imagem é apresentada com 123 pixels de largura</li>
+         <li>Se a largura indicada for maior do que a imagem ou maior do que o permitido pelo forum será usada a maior dimensão permitida</li>
+         <li>Também pode ser usado para dimensionar a mini-imagem. [attach=1 width=50] irá apresentar uma mini-imagem com 50px de largura</li>
+      </ul>
+      </p><br />
+   <h3>Como utilizar?</h3>
+   <p>
+      <h4>Passo 1 :</h4>
+      Na selecção do ficheiro, seleccionar a imagem que quer inserir;
+      <h4>Passo 2 :</h4>
+      Seleccionar o modo de inserção que pretende usando a caixa "Modos de inserção";
+      <h4>Passo 3 :</h4>
+      Repetir os passos para cada ficheiro que pretende anexar. Pode mover ou alterar as marcas no corpo da mensagem conforme necessário.
+   </p>
+';
+//End ILA in line attachment changes
+]]></add>
+	</operation>
+</file>
+
+<file name="$languagedir/Modifications.danish-utf8.php" error="skip">
+   <operation>
+      <search position="end" />
+      <add><![CDATA[
+      
+//Begin ILA in line attachment changes
+$txt['mods_cat_modifications_ila'] = 'In Line Attachments';
+$txt['ila_desc'] = 'Denne sektion giver dig mulighed for at Ã¦ndre indstillinger for In Line Attachment modification';
+$txt['ila_enabled'] = '(ILA) Aktiver inline attachment modifikation';
+$txt['ila_alwaysfullsize'] = '(ILA) Tving inline billeder til altid af vÃ¦re fuld stÃ¸rrelse';
+$txt['ila_basicmenu'] = '(ILA) Vis kun grundlÃ¦ggende ILA menu';
+$txt['ila_insert'] = 'IndsÃ¦t vedhÃ¦ftning';
+$txt['ila_title'] = 'I slutning af indlÃ¦g ';
+$txt['ila_option1'] = 'I teksten (miniaturebillede)';
+$txt['ila_option2'] = 'I teksten (fuldt billede)';
+$txt['ila_option3'] = 'I teksten (tekst link)';
+$txt['ila_option4'] = 'I teksten (kompakt link)';
+$txt['ila_nopermission'] = ' [ Du har ikke rettigheder til at se vedhÃ¦ftninger ] ';
+$txt['ila_invalid'] = ' [ VedhÃ¦ftning ugyldig eller findes ikke ] ';
+$txt['ila_disabled'] = ' [ VedhÃ¦ftning deaktiveret ] ';
+$txt['ila_insert_next'] = ' i indlÃ¦gger';
+$txt['ila_attachment_missing'] = ' [ Angivne vedhÃ¦ftning er ikke tilgÃ¦ngelig ]';
+$txt['ila_thereare'] = 'Der er kun';
+$txt['ila_attachment'] = 'vedhÃ¦ftning(er)';
+$txt['ila_forbidden_for_guest'] = ' [ GÃ¦ster kan ikke se vedhÃ¦ftninger ] ';
+$txt['ila_quote_link'] = ' (VedhÃ¦ftning link) ';
+$txt['ila_quote_nolink'] = ' (VedhÃ¦ftning) ';
+$txt['ila_none'] = 'som miniaturebillede';
+$txt['ila_img'] = 'som fuldstÃ¸rrelse billede';
+$txt['ila_url'] = 'som et link';
+$txt['ila_mini'] = 'som et kompakt link';
+//End ILA in line attachment changes
+]]></add>
+   </operation>
+</file>
+
+<file name="$languagedir/Help.danish-utf8.php" error="skip">
+   <operation>
+      <search position="end" />
+      <add><![CDATA[//ILA in line attachment changes
+$helptxt['ILA_InLineAttachments_help'] = '<b>TilfÃ¸j vedhÃ¦ftning i indlÃ¦gget</b><br />
+      Eksempel:
+      <br /><b>[attachimg=1 align=left width=400]</b>
+      <br />Dette vil vise et venstre justeret billede justeret til 400 pixel i bredden med teksten omkring. PÃ¥ nÃ¦r vedhÃ¦ftnings tag og nummer er alle andre parametre valgfrie
+      <br /><b>[attach=1]</b>
+      <br />Dette vil vise vedhÃ¦ftning som et miniaturebillede hvis det er tilgÃ¦ngeligt, ellers vil der blive vist et fuldstÃ¸rrelse billede. Billedet vil blive placeret i indlÃ¦gget sammen med din tekst.
+      <br /><br />
+      <b>Valgmuligheder:</b>
+      <br />attach=x, attachimg=x, attachurl=x, attachmini=x hvor x er nummeret pÃ¥ vedhÃ¦ftningen
+      <br />align=left, center, right
+      <br />width=### (nummer angives i pixels)
+      <br /><br />
+        <h3>TilgÃ¦ngelige tilstande</h3>
+        <p>
+            Du kan vÃ¦lge den tilstand du Ã¸nsker for din vedhÃ¦ftning:
+            <ul>
+                <li><u>Miniaturebillede      [attach=x]</u> Dit billede vises som et miniaturebillede</li>
+                <li><u>FuldstÃ¸rrelse billede [attachimg=x]</u> Dit billede vises som fuldstÃ¸rrelse op til det tilladte i forum. Billeder stÃ¸rre end det tilladte i forum vil vises i maksimal tilladte stÃ¸rrelse og kan forstÃ¸rres ved at klikke pÃ¥ det</li>
+                <li><u>Tekst link            [attachurl=x]</u> Der vises kun et link med enkelte detaljer. NÃ¥r du klikker pÃ¥ linket vises billedet.</li>
+                <li><u>Kompakt link          [attachmini=x]</u> Der vises kun et link uden nogen detaljer. NÃ¥r du klikker pÃ¥ linket vises billedet.</li>
+            </ul>
+        </p><br />
+      <p>
+         Du kan vÃ¦lge hvordan dit billede skal justeres i forhold til teksten:
+         <ul>
+            <li><u>align=left</u> Billedet placeres til venstre i indlÃ¦gget og teksten lÃ¸ber omkring det til hÃ¸jre</li>
+            <li><u>align=right</u> Billedet placeres til hÃ¸jre i indlÃ¦gget og teksten lÃ¸ber omkring det til venstre</li>
+            <li><u>align=center</u> Billedet placeret midt i indlÃ¦gget og teksten lÃ¸ber omkring det til hÃ¸jre og venstre</li>
+         </ul>
+      </p><br />
+      <p>
+         Du kan vÃ¦lge hvor bredt dit billede skal vises:
+         <ul>
+            <li><u>width=123</u> Billedet vises i en bredde pÃ¥ 123pixels</li>
+            <li>Hvis den angivne bredde er stÃ¸rre end billedet eller stÃ¸rre en tilladt, vil den hÃ¸jst tilladte bredde bruges</li>
+            <li>Kan ogsÃ¥ bruges til at formindste et miniaturebillede [attach=1 width=50] vil vise et miniaturebillede med en bredde pÃ¥ 50px
+         </ul>
+      </p><br />
+        <h3>Hvordan gÃ¸r du?</h3>
+        <p>
+            <h4>Trin 1:</h4>
+            Under vedhÃ¦ftninger skal du vÃ¦lge den fil du vil uploade
+            <h4>Trin 2:</h4>
+            VÃ¦lg tilstand for vedhÃ¦ftningen
+            <h4>Trin 3:</h4>
+            Gentag trin 1 og 2 for hver ved hÃ¦ftning du vil uploade. Flyt eller rediger tags i indlÃ¦gget efter behov
+        </p>
+';
+//End ILA in line attachment changes
+         ]]></add>
+   </operation>
+</file>
+
+
+</modification>

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE package-info SYSTEM "http://www.simplemachines.org/xml/package-info">
+<package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
+	<name>InLine Attachments</name>
+	<id>spuds:ILA</id>
+	<version>1.11</version>
+	<type>modification</type>
+	
+	<install for="2.0 - 2.0.99">
+		<database>add_settings.php</database>
+		<code>add_remove_hooks.php</code>
+		<modification>install-2.0.xml</modification>
+		<modification>language.xml</modification>
+		<modification>language-utf8.xml</modification>
+		<readme type="file" parsebbc="true">readme.txt</readme>
+		<require-file name="ILA-Subs.php" destination="$sourcedir">ILA Main program</require-file>
+		<require-file name="ILA_integration.php" destination="$sourcedir">ILA integration functions</require-file>
+		<require-file name="ila.js" destination="$themedir/scripts">Small javascript support file</require-file>
+		<redirect url="index.php?action=admin;area=modsettings;sa=ila" timeout="8000">redirect.txt</redirect>
+	</install>
+	
+	<uninstall for="2.0 - 2.0.99">
+		<code>add_remove_hooks.php</code>
+		<modification reverse="true">install-2.0.xml</modification>
+		<modification reverse="true">language.xml</modification>
+		<modification reverse="true">language-utf8.xml</modification>
+		<remove-file name="$sourcedir/ILA-Subs.php" />
+		<remove-file name="$sourcedir/ILA_integration.php" />
+		<remove-file name="$themedir/scripts/ila.js" />
+	</uninstall>
+</package-info>

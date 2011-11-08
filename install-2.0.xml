@@ -1,0 +1,290 @@
+<?xml version="1.0"?>
+<!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
+<modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
+<id>spuds:ILA</id>
+
+<file name="$sourcedir/Subs.php">
+	<operation>
+		<search position="before"><![CDATA[	// Sift out the bbc for a performance improvement.]]></search>
+		<add><![CDATA[
+		
+	// ILA in line attachment changes
+	if (empty($context['pmx']['forumReq']) && empty($context['pmx']['pageReq']) && empty($_GET['pmxerror']) && (isset($context['pmx']['settings']['frontpage']) && ($context['pmx']['settings']['frontpage'] != 'none')))
+	{   
+		// Just a dummy comment so whether the portalMX front page is loaded or there is a page you can request to test
+	}
+	elseif (empty($parse_tags) && empty($context['uninstalling']))
+	{
+		global $sourcedir;
+
+		if (stripos($message, '[attach') !== false)
+		{
+			if (!function_exists('ila_hide_bbc'))
+				require_once($sourcedir . '/ILA-Subs.php');
+			ila_hide_bbc($message);
+		}
+	}
+	// End ILA in line attachment changes
+	
+]]></add>
+	</operation>
+
+	<operation>
+		<search position="after"><![CDATA[	// Cache the output if it took some time...]]></search>
+		<add><![CDATA[
+	// ILA in line attachment changes
+	if (empty($parse_tags) && empty($context['uninstalling']))
+	{
+		if (function_exists('ila_parse_bbc') && stripos($message, '[attach') !== false)
+			ila_parse_bbc($message, $cache_id);
+	}
+	// End ILA in line attachment changes
+	
+]]></add>
+	</operation>
+	
+	<operation>
+		<search position="after"><![CDATA[
+	// This is done to allow theme authors to customize it as they want.]]></search>
+		<add><![CDATA[
+	// ILA in line attachment changes
+	$context['html_headers'] .=  '<script type="text/javascript" src="' . $settings['default_theme_url'] . '/scripts/ila.js"></script>';
+	// End ILA in line attachment changes
+
+]]></add>
+	</operation>
+
+</file>
+
+<file name="$sourcedir/Post.php">
+	<operation>
+		<search position="replace"><![CDATA[				while ($row = $smcFunc['db_fetch_assoc']($request))
+				{
+					if ($row['filesize'] <= 0)
+						continue;
+					$context['current_attachments'][] = array(
+						'name' => htmlspecialchars($row['filename']),
+						'id' => $row['id_attach'],
+						'approved' => $row['approved'],
+					);
+				}]]></search>
+		<add><![CDATA[				// ILA in line attachment changes
+				$temp = array();
+				while ($row = $smcFunc['db_fetch_assoc']($request))
+				{
+					if ($row['filesize'] <= 0)
+						continue;
+					$temp[$row['id_attach']] = $row;
+				}
+				
+				// This is better than sorting it with the query...
+				ksort($temp);
+				
+				foreach ($temp as $row)
+				{
+						$context['current_attachments'][] = array(
+						'name' => htmlspecialchars($row['filename']),
+						'id' => $row['id_attach'],
+						'approved' => $row['approved'],
+					);
+				}
+				// End ILA in line attachment changes
+]]></add>
+	</operation>
+	
+	<operation>
+		<search position="replace"><![CDATA[		// Load up 'em attachments!
+		foreach ($attachment_stuff as $attachment)
+		{
+			if ($attachment['filesize'] >= 0 && !empty($modSettings['attachmentEnable']))
+				$context['current_attachments'][] = array(
+					'name' => htmlspecialchars($attachment['filename']),
+					'id' => $attachment['id_attach'],
+					'approved' => $attachment['attachment_approved'],
+				);
+		}]]></search>
+		
+		<add><![CDATA[		// Load up 'em attachments!
+		// ILA in line attachment changes
+		$temp = array();
+		foreach ($attachment_stuff as $attachment)
+		{
+			if ($attachment['filesize'] >= 0 && !empty($modSettings['attachmentEnable']))
+				$temp[$attachment['id_attach']] = $attachment;
+
+		}
+		ksort($temp);
+		foreach ($temp as $attachment) 
+		{
+			$context['current_attachments'][] = array(
+				'name' => htmlspecialchars($attachment['filename']),
+				'id' => $attachment['id_attach'],
+				'approved' => $attachment['attachment_approved'],
+			);
+		}
+		// End ILA in line attachment changes]]></add>
+	</operation>
+</file>
+
+<file name="$themedir/Display.template.php">
+	<operation>
+		<search position="before"><![CDATA[			$last_approved_state = 1;
+			foreach ($message['attachment'] as $attachment)
+			{
+			]]></search>
+		<add><![CDATA[
+				// ILA in line attachment changes
+				if (!isset($settings['ila_dont_show_attach_below']) || !array_key_exists($attachment['id'],$settings['ila_dont_show_attach_below'])) 
+				{
+				// End ILA in line attachment changes
+				
+			]]></add>
+	</operation>
+	
+	<operation>
+	<search position="after"><![CDATA[			// If we had unapproved attachments clean up.
+	]]></search>
+	<add><![CDATA[
+			// ILA in line attachment changes
+			}
+			// End ILA in line attachment changes
+]]></add>
+	</operation>
+</file>	
+
+<file name="$themedir/Post.template.php">
+	<operation error="ignore">
+		<search position="replace" error="ignore"><![CDATA[		foreach ($context['current_attachments'] as $attachment)
+			echo '
+						<dd class="smalltext">
+							<label for="attachment_', $attachment['id'], '"><input type="checkbox" id= "attachment_', $attachment['id'], '" name="attach_del[]" value="', $attachment['id'], '"', empty($attachment['unchecked']) ? ' checked="checked"' : '', ' class="input_check" /> ', $attachment['name'], (empty($attachment['approved']) ? ' (' . $txt['awaiting_approval'] . ')' : ''), '</label>
+						</dd>';
+]]></search>
+		<add><![CDATA[						
+	// ILA in line attachment changes
+	foreach ($context['current_attachments'] as $attid => $attachment)
+		// For each existing attachment show the check box and link to do an ILA attach for the attachment
+		echo '
+					<dd class="smalltext">
+						<label for="attachment_', $attachment['id'], '"><input type="checkbox" id= "attachment_', $attachment['id'], '" name="attach_del[]" value="', $attachment['id'], '"', empty($attachment['unchecked']) ? ' checked="checked"' : '', ' class="input_check" /> ', $attachment['name'], (empty($attachment['approved']) ? ' (' . $txt['awaiting_approval'] . ')' : ''), '</label>
+					<a href="javascript:void(0);" onclick="
+					ila_text = \'[attach=',($attid+1),']\';
+					oEditorHandle_', $context['post_box_name'], '.insertText(ila_text, false, true);
+					return false;">[', $txt['ila_insert'] ,' ', ($attid+1),' ', $txt['ila_insert_next'] ,']</a>
+					</dd>';
+	// End ILA changes';
+]]></add>
+	</operation>
+</file>
+	
+<file name="$themedir/Post.template.php">
+	<operation>
+		<search position="replace"><![CDATA[							<input type="file" size="60" name="attachment[]" id="attachment1" class="input_file" /> (<a href="javascript:void(0);" onclick="cleanFileInput(\'attachment1\');">', $txt['clean_attach'], '</a>)';
+]]></search>
+		<add><![CDATA[							<input type="file" size="60" name="attachment[]" id="attachment1" class="input_file" />';
+
+		// ILA in line attachment changes
+		echo '
+							<select id="inline_format" onchange="if(this.value != \'\'){ila_text = \'[\'+this.value+\'=', (count($context['current_attachments']) + 1), ']\';oEditorHandle_', $context['post_box_name'], '.insertText(ila_text, false, true);return false;}">
+								<option value="" selected="selected">', $txt['ila_title'], '&nbsp;</option>
+								<option value="attach">', $txt['ila_option1'], '</option>';
+		// Show all options or simple ILA menu
+		if (!isset($modSettings['ila_basicmenu']) || (isset($modSettings['ila_basicmenu']) && empty($modSettings['ila_basicmenu']))) 
+		{
+			echo '
+								<option value="attachimg">', $txt['ila_option2'], '</option>
+								<option value="attachurl">', $txt['ila_option3'], '</option>
+								<option value="attachmini">', $txt['ila_option4'], '</option>';
+		}
+		echo '
+							</select>';
+		// Add help
+		echo '
+							<a href="', $scripturl, '?action=helpadmin;help=ILA_InLineAttachments_help" onclick="return reqWin(this.href);" class="help"><img src="', $settings['images_url'], '/helptopics.gif" alt="', $txt['help'], '" align="top" /></a>';	
+		// Add clean me up back
+		echo '
+							(<a href="javascript:void(0);" onclick="cleanFileInput(\'attachment1\');">', $txt['clean_attach'], '</a>)';
+	
+		// set more menu items
+		if (!isset($modSettings['ila_basicmenu']) || (isset($modSettings['ila_basicmenu']) && empty($modSettings['ila_basicmenu'])))
+			$ila_menu = '<option value="" selected>'. $txt['ila_title'] . '</option><option value="attach">' . $txt['ila_option1'] . '</option><option value="attachimg">' . $txt['ila_option2'] . '</option><option value="attachurl">' . $txt['ila_option3'] . '</option><option value="attachmini">' . $txt['ila_option4'] . '</option>';
+		else	
+			$ila_menu = '<option value="" selected>' . $txt['ila_title'] . '</option><option value="attach">' . $txt['ila_option1'] . '</option>';
+		// END ILA in line attachment changes
+]]></add>
+	</operation>
+	
+	<operation>
+		<search position="replace"><![CDATA[
+								function addAttachment()
+								{
+									allowed_attachments = allowed_attachments - 1;
+									current_attachment = current_attachment + 1;
+									if (allowed_attachments <= 0)
+										return alert("', $txt['more_attachments_error'], '");
+
+									setOuterHTML(document.getElementById("moreAttachments"), \'<dd class="smalltext"><input type="file" size="60" name="attachment[]" id="attachment\' + current_attachment + \'" class="input_file" /> (<a href="javascript:void(0);" onclick="cleanFileInput(\\\'attachment\' + current_attachment + \'\\\');">', $txt['clean_attach'], '</a>)\' + \'</dd><dd class="smalltext" id="moreAttachments"><a href="#" onclick="addAttachment(); return false;">(', $txt['more_attachments'], ')<\' + \'/a><\' + \'/dd>\');
+
+									return true;
+								}
+]]></search>
+		<add><![CDATA[
+								var count_attachments = ', count($context['current_attachments']) ,' + 1;
+								function createLink(count_attachments)
+								{
+									var insert_value = document.getElementById(\'inline_format\'+count_attachments).value;
+									if ( insert_value != "" ) {
+										ila_text = "["+insert_value+"="+count_attachments+"]";
+										oEditorHandle_', $context['post_box_name'], '.insertText(ila_text, false, true);
+									}
+									return false;
+								}
+
+								function addAttachment()
+								{
+									allowed_attachments = allowed_attachments - 1;
+									current_attachment = current_attachment + 1;
+									if (allowed_attachments <= 0)
+										return alert("', $txt['more_attachments_error'], '");
+
+									count_attachments = count_attachments + 1 ;
+									setOuterHTML(document.getElementById("moreAttachments"), \'<dd class="smalltext"><input type="file" size="60" name="attachment[]" id="attachment\' + current_attachment + \'" class="input_file" /> <select id="inline_format\'+count_attachments+\'" onchange="createLink(\\\'\'+ count_attachments +\'\\\')" style="">', $ila_menu ,'</select>&nbsp;<a href="', $scripturl, '?action=helpadmin;help=ILA_InLineAttachments_help" onclick="return reqWin(this.href);" class="help"><img src="', $settings['images_url'], '/helptopics.gif" alt="', $txt['help'], '" align="top" /></a>&nbsp;(<a href="javascript:void(0);" onclick="cleanFileInput(\\\'attachment\' + current_attachment + \'\\\');">', $txt['clean_attach'], '</a>)<dd class="smalltext" id="moreAttachments"><a href="#" onclick="addAttachment(); return false;">(', $txt['more_attachments'], ')<\' + \'/a><\' + \'/dd><\' + \'/dd>\');
+
+									return true;
+								}
+]]></add>
+	</operation>
+	
+	<operation>
+		<search position="before"><![CDATA[			var current_board = ', empty($context['current_board']) ? 'null' : $context['current_board'], ';]]></search>
+		<add><![CDATA[			
+			var current_message = ', empty($_REQUEST['msg']) ? 'null' : (int) $_REQUEST['msg'], ';
+			var ilaAttach, ilaElem, ila =0;]]></add>
+	</operation>
+	
+	<operation>
+		<search position="before"><![CDATA[			function previewPost()
+			{]]></search>
+		<add><![CDATA[
+			ilaAttach = "";
+			while (ilaElem = document.forms.postmodify.elements[ila++])
+			{
+				if (ilaElem.name == "attachment[]")
+					ilaAttach += ilaElem.value + ","; 
+			}
+			if (ilaAttach != "")
+				ilaAttach = escape(ilaAttach.slice(0,-1));
+			ila = 0;
+			]]></add>
+	</operation>
+	
+	<operation>
+		<search position="replace"><![CDATA[					sendXMLDocument(smf_prepareScriptUrl(smf_scripturl) + \'action=post2\' + (current_board ? \';board=\' + current_board : \'\') + (make_poll ? \';poll\' : \'\') + \';preview;xml\', x.join(\'&\'), onDocSent);
+
+]]></search>
+		<add><![CDATA[					sendXMLDocument(smf_prepareScriptUrl(smf_scripturl) + \'action=post2\' + (current_message ? \';msg=\' + current_message : \'\') + (ilaAttach ? \';ila=\' + ilaAttach : \'\') + (current_board ? \';board=\' + current_board : \'\') + (make_poll ? \';poll\' : \'\') + \';preview;xml\', x.join(\'&\'), onDocSent);
+]]></add>
+	</operation>
+</file>
+
+</modification>
