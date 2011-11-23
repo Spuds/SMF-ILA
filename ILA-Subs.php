@@ -116,7 +116,9 @@ function ila_parse_bbc(&$message, $id_msg = -1)
 	{
 		ila_find_nested($message, $id_msg);
 		return;
-	} elseif ($id_msg != -1) {
+	} 
+	elseif ($id_msg != -1) 
+	{
 		// Lets make sure we have the attachments to work with so we can get the context array
 		if (!isset($attachments[$id_msg]))
 			$attachments[$id_msg] = ila_load_attachments($id_msg);
@@ -161,7 +163,9 @@ function ila_parse_bbc(&$message, $id_msg = -1)
 				$message = preg_replace('~\[attach\s*?(.*?(?:".+?")?.*?|.*?)\][\r\n]?~i', $txt['ila_forbidden_for_guest'], $message);
 			else
 				$message = preg_replace('~\[attach\s*?(.*?(?:".+?")?.*?|.*?)\][\r\n]?~i', $txt['ila_nopermission'], $message);
-		} else {
+		} 
+		else 
+		{
 			// if we have attachments, and ILA tags then go through each ILA tag, one by one, and resolve it back to the correct SMF attachment
 			if (!empty($ila_tags) && ((count($ila_attachments_context) > 0) || (isset($_REQUEST['ila']))))
 			{
@@ -170,7 +174,9 @@ function ila_parse_bbc(&$message, $id_msg = -1)
 					$message = ila_str_replace_once($ila_tags[0][$id], ila_parse_bbc_tag($ila_replace, $ila_attachments_context, $id_msg, $ila_num, $ila_new_msg_preview), $message);
 					$ila_num++;
 				}
-			} elseif (!empty($ila_tags)) {
+			} 
+			elseif (!empty($ila_tags)) 
+			{
 				// we have tags in the message and no attachments ... there are a few reasons why this can occur
 				// -- the tags in the message but there is no attachment, perhaps the attachment did not upload correctly
 				// -- maybe the user put the tag in wrong because they are rock dumb and did not read our fantastic help, just kidding,
@@ -216,7 +222,9 @@ function ila_parse_bbc_tag($data, $attachments, $id_msg, $ila_num, $ila_new_msg_
 		// support for attachment tags from different version of this mod and moving depreciated thumb tag to be the same as attach
 		if ($done['type'] == 'ment' || $done['type'] == 'thumb')
 			$done['type'] = 'none';
-	} else {
+	} 
+	else 
+	{
 		// nothing but a =x or perhaps nothing at all
 		$done['id'] = isset($temp[1]) ? trim($temp[1]) : '';
 		$done['type'] = 'none';
@@ -487,7 +495,9 @@ function ila_showInline($done, $attachments, $id_msg, $ila_num, $ila_new_msg_pre
 
 		// keep track of the attachments we have in-lined so we can exclude them from being displayed in the post footers
 		$settings['ila_dont_show_attach_below'][$attachment['id']] = 1;		
-	} else {
+	} 
+	else 
+	{
 		// couldn't find the attachment specified
 		// - they may have specified it wrong
 		// - or they don't have permissions for attachments
@@ -529,9 +539,11 @@ function ila_createfakethumb($attachment, $highslide, $hs4smf, $width, $uniqueID
 	// Determine whether to resize to max width or to max height (depending on the limits.)
 	if ($src_height * $max_width / $src_width <= $max_height)
 	{
-		$dst_width = $max_width;
 		$dst_height = floor($src_height * $max_width / $src_width);
-	} else {
+		$dst_width = $max_width;
+	} 
+	else 
+	{
 		$dst_width = floor($src_width * $max_height / $src_height);
 		$dst_height = $max_height;
 	}
