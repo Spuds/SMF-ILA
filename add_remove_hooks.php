@@ -23,12 +23,16 @@ $hook_functions = array(
 	'integrate_bbc_codes' => 'ila_bbc_add_code',
 	'integrate_modify_modifications' => 'ila_integrate_modify_modifications',
 	'integrate_admin_areas' => 'ila_integrate_admin_areas',
-	'integrate_pre_include' => '$boarddir/Sources/ILA_integration.php'
+	'integrate_pre_include' => '$sourcedir/ILA_integration.php'
 );
 
 // Adding or removing them?
 if (!empty($context['uninstalling']))
+{
+	// We only added this if they enabled the mod, need to make sure we clear it now
+	$hook_functions['integrate_pre_include'] = '$sourcedir/ILA-Subs.php';
 	$call = 'remove_integration_function';
+}
 else
 	$call = 'add_integration_function';
 
@@ -37,6 +41,6 @@ foreach ($hook_functions as $hook => $function)
 	$call($hook, $function);
 
 if (SMF == 'SSI')
-   echo 'Congratulations! You have successfully installed this mod!';
+   echo 'Congratulations! You have successfully installed The Hooks for ILA!';
 
 ?>

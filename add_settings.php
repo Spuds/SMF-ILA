@@ -23,19 +23,12 @@ global $modSettings, $smcFunc;
 
 // List settings here in the format: setting_key => default_value.  Escape any "s. (" => \")
 $mod_settings = array(
-	'ila_enabled' => 1,
 	'ila_alwaysfullsize' => 0,
 	'ila_basicmenu' => 0,
 );
 
-// Settings to create the new tables...
-$tables = array();
-
-// Add a row to an existing table
-$rows = array();
-
-// Add a column to an existing table
-$columns = array();
+// always start off as not enabled .... even on a reinstall
+updateSettings(array('ila_enabled' => 0));
 
 // Update mod settings if applicable
 foreach ($mod_settings as $new_setting => $new_value)
@@ -43,15 +36,6 @@ foreach ($mod_settings as $new_setting => $new_value)
 	if (!isset($modSettings[$new_setting]))
 		updateSettings(array($new_setting => $new_value));
 }
-
-foreach ($tables as $table)
-  $smcFunc['db_create_table']($table['table_name'], $table['columns'], $table['indexes'], $table['parameters'], $table['if_exists'], $table['error']);
-
-foreach ($rows as $row)
-  $smcFunc['db_insert']($row['method'], $row['table_name'], $row['columns'], $row['data'], $row['keys']);
-	 
-foreach ($columns as $column)
-  $smcFunc['db_add_column']($column['table_name'], $column['column_info'], $column['parameters'], $column['if_exists'], $column['error']);
 
 if (SMF == 'SSI')
    echo 'Congratulations! You have successfully installed this mod!';

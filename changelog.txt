@@ -1,8 +1,16 @@
 Changelog
+[b]1.2 - 04 Dec 2011[/b]
+o + Release under proper open license
+o - Removed support for [attachment tags in message (if you are upgrading from a mod that uses these you will need to manually replace those tags in your database.
+o - Removed support for 'Highslide Image Viewer', only HS4SMF Highslide is supported
+o ! Fixed error where [attach] shortcut was not working
+o ! Fixed error where previewing a modified message would not render the 'fake' thumb properly
+o + Improved error handling for improperly constructed tags
+
 [b]1.11 - 21 Mar 2011[/b]
 o ! fixed issue where an ILA tag in a quote would not correctly render a back link
 o ! minor code formatting updates
-o ! update for portaMX RC 1.0 tahnks to r2d2-trader
+o ! update for portaMX RC 1.0 thanks to r2d2-trader
 
 [b]1.10 - 19 Feb 2011[/b]
 o + RC5 support

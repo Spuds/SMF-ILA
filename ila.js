@@ -1,6 +1,5 @@
 // ILA in line attachment changes
-function ILAexpandThumb(thumbID)
-{
+function ILAexpandThumb(thumbID) {
 	// basically the same as expandThumb, but maintains the style width and height attributes instead of feeding them to the bears
 	var img = document.getElementById('thumb_' + thumbID);
 	var link = document.getElementById('link_' + thumbID);

@@ -3,20 +3,20 @@
 <package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
 	<name>InLine Attachments</name>
 	<id>spuds:ILA</id>
-	<version>1.11</version>
+	<version>1.2</version>
 	<type>modification</type>
 	
 	<install for="2.0 - 2.0.99">
 		<database>add_settings.php</database>
-		<code>add_remove_hooks.php</code>
 		<modification>install-2.0.xml</modification>
-		<modification>language.xml</modification>
-		<modification>language-utf8.xml</modification>
 		<readme type="file" parsebbc="true">readme.txt</readme>
 		<require-file name="ILA-Subs.php" destination="$sourcedir">ILA Main program</require-file>
-		<require-file name="ILA_integration.php" destination="$sourcedir">ILA integration functions</require-file>
+		<require-file name="ILA_integration.php" destination="$sourcedir">ILA Integration functions</require-file>
 		<require-file name="ila.js" destination="$themedir/scripts">Small javascript support file</require-file>
-		<redirect url="index.php?action=admin;area=modsettings;sa=ila" timeout="8000">redirect.txt</redirect>
+		<code>add_remove_hooks.php</code>
+		<modification>language.xml</modification>
+		<modification>language-utf8.xml</modification>
+		<redirect url="index.php?action=admin;area=modsettings;sa=ila" timeout="5000">redirect.txt</redirect>
 	</install>
 	
 	<uninstall for="2.0 - 2.0.99">

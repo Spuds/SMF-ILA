@@ -1,6 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
 <modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
+<!-- --------------------------------------------------------------------------
+  package "In Line Attachments (ILA)" Mod for Simple Machines Forum (SMF) V2.0
+  author Spuds
+  copyright (c) 2011 Spuds
+  license license.txt (included with package) BSD
+--------------------------------------------------------------------------- -->
 <id>spuds:ILA</id>
 
 <file name="$sourcedir/Subs.php">
@@ -9,21 +15,14 @@
 		<add><![CDATA[
 		
 	// ILA in line attachment changes
+	
 	if (empty($context['pmx']['forumReq']) && empty($context['pmx']['pageReq']) && empty($_GET['pmxerror']) && (isset($context['pmx']['settings']['frontpage']) && ($context['pmx']['settings']['frontpage'] != 'none')))
-	{   
+	{
 		// Just a dummy comment so whether the portalMX front page is loaded or there is a page you can request to test
 	}
-	elseif (empty($parse_tags) && empty($context['uninstalling']))
-	{
-		global $sourcedir;
+	elseif (empty($parse_tags) && empty($context['uninstalling']) && !empty($modSettings['ila_enabled']))
+		ila_hide_bbc($message);
 
-		if (stripos($message, '[attach') !== false)
-		{
-			if (!function_exists('ila_hide_bbc'))
-				require_once($sourcedir . '/ILA-Subs.php');
-			ila_hide_bbc($message);
-		}
-	}
 	// End ILA in line attachment changes
 	
 ]]></add>
@@ -33,11 +32,13 @@
 		<search position="after"><![CDATA[	// Cache the output if it took some time...]]></search>
 		<add><![CDATA[
 	// ILA in line attachment changes
+	
 	if (empty($parse_tags) && empty($context['uninstalling']))
 	{
 		if (function_exists('ila_parse_bbc') && stripos($message, '[attach') !== false)
 			ila_parse_bbc($message, $cache_id);
 	}
+	
 	// End ILA in line attachment changes
 	
 ]]></add>
@@ -48,13 +49,15 @@
 	// This is done to allow theme authors to customize it as they want.]]></search>
 		<add><![CDATA[
 	// ILA in line attachment changes
+	
 	$context['html_headers'] .=  '<script type="text/javascript" src="' . $settings['default_theme_url'] . '/scripts/ila.js"></script>';
+	
 	// End ILA in line attachment changes
 
 ]]></add>
 	</operation>
-
 </file>
+
 
 <file name="$sourcedir/Post.php">
 	<operation>
@@ -69,6 +72,7 @@
 					);
 				}]]></search>
 		<add><![CDATA[				// ILA in line attachment changes
+				
 				$temp = array();
 				while ($row = $smcFunc['db_fetch_assoc']($request))
 				{
@@ -82,12 +86,13 @@
 				
 				foreach ($temp as $row)
 				{
-						$context['current_attachments'][] = array(
+					$context['current_attachments'][] = array(
 						'name' => htmlspecialchars($row['filename']),
 						'id' => $row['id_attach'],
 						'approved' => $row['approved'],
 					);
 				}
+				
 				// End ILA in line attachment changes
 ]]></add>
 	</operation>
@@ -106,6 +111,7 @@
 		
 		<add><![CDATA[		// Load up 'em attachments!
 		// ILA in line attachment changes
+		
 		$temp = array();
 		foreach ($attachment_stuff as $attachment)
 		{
@@ -114,7 +120,7 @@
 
 		}
 		ksort($temp);
-		foreach ($temp as $attachment) 
+		foreach ($temp as $attachment)
 		{
 			$context['current_attachments'][] = array(
 				'name' => htmlspecialchars($attachment['filename']),
@@ -122,9 +128,11 @@
 				'approved' => $attachment['attachment_approved'],
 			);
 		}
+		
 		// End ILA in line attachment changes]]></add>
 	</operation>
 </file>
+
 
 <file name="$themedir/Display.template.php">
 	<operation>
@@ -134,8 +142,10 @@
 			]]></search>
 		<add><![CDATA[
 				// ILA in line attachment changes
-				if (!isset($settings['ila_dont_show_attach_below']) || !array_key_exists($attachment['id'],$settings['ila_dont_show_attach_below'])) 
+				
+				if (!isset($context['ila_dont_show_attach_below']) || !array_key_exists($attachment['id'], $context['ila_dont_show_attach_below']))
 				{
+				
 				// End ILA in line attachment changes
 				
 			]]></add>
@@ -146,11 +156,14 @@
 	]]></search>
 	<add><![CDATA[
 			// ILA in line attachment changes
+			
 			}
+			
 			// End ILA in line attachment changes
 ]]></add>
 	</operation>
 </file>	
+
 
 <file name="$themedir/Post.template.php">
 	<operation error="ignore">
@@ -162,6 +175,7 @@
 ]]></search>
 		<add><![CDATA[						
 	// ILA in line attachment changes
+	
 	foreach ($context['current_attachments'] as $attid => $attachment)
 		// For each existing attachment show the check box and link to do an ILA attach for the attachment
 		echo '
@@ -172,11 +186,13 @@
 					oEditorHandle_', $context['post_box_name'], '.insertText(ila_text, false, true);
 					return false;">[', $txt['ila_insert'] ,' ', ($attid+1),' ', $txt['ila_insert_next'] ,']</a>
 					</dd>';
-	// End ILA changes';
+					
+	// End ILA in line attachment changes';
 ]]></add>
 	</operation>
 </file>
-	
+
+
 <file name="$themedir/Post.template.php">
 	<operation>
 		<search position="replace"><![CDATA[							<input type="file" size="60" name="attachment[]" id="attachment1" class="input_file" /> (<a href="javascript:void(0);" onclick="cleanFileInput(\'attachment1\');">', $txt['clean_attach'], '</a>)';
@@ -184,12 +200,14 @@
 		<add><![CDATA[							<input type="file" size="60" name="attachment[]" id="attachment1" class="input_file" />';
 
 		// ILA in line attachment changes
+		
 		echo '
 							<select id="inline_format" onchange="if(this.value != \'\'){ila_text = \'[\'+this.value+\'=', (count($context['current_attachments']) + 1), ']\';oEditorHandle_', $context['post_box_name'], '.insertText(ila_text, false, true);return false;}">
 								<option value="" selected="selected">', $txt['ila_title'], '&nbsp;</option>
 								<option value="attach">', $txt['ila_option1'], '</option>';
+		
 		// Show all options or simple ILA menu
-		if (!isset($modSettings['ila_basicmenu']) || (isset($modSettings['ila_basicmenu']) && empty($modSettings['ila_basicmenu']))) 
+		if (!isset($modSettings['ila_basicmenu']) || (isset($modSettings['ila_basicmenu']) && empty($modSettings['ila_basicmenu'])))
 		{
 			echo '
 								<option value="attachimg">', $txt['ila_option2'], '</option>
@@ -198,9 +216,11 @@
 		}
 		echo '
 							</select>';
+		
 		// Add help
 		echo '
 							<a href="', $scripturl, '?action=helpadmin;help=ILA_InLineAttachments_help" onclick="return reqWin(this.href);" class="help"><img src="', $settings['images_url'], '/helptopics.gif" alt="', $txt['help'], '" align="top" /></a>';	
+		
 		// Add clean me up back
 		echo '
 							(<a href="javascript:void(0);" onclick="cleanFileInput(\'attachment1\');">', $txt['clean_attach'], '</a>)';
@@ -210,6 +230,7 @@
 			$ila_menu = '<option value="" selected>'. $txt['ila_title'] . '</option><option value="attach">' . $txt['ila_option1'] . '</option><option value="attachimg">' . $txt['ila_option2'] . '</option><option value="attachurl">' . $txt['ila_option3'] . '</option><option value="attachmini">' . $txt['ila_option4'] . '</option>';
 		else	
 			$ila_menu = '<option value="" selected>' . $txt['ila_title'] . '</option><option value="attach">' . $txt['ila_option1'] . '</option>';
+		
 		// END ILA in line attachment changes
 ]]></add>
 	</operation>
@@ -270,7 +291,7 @@
 			while (ilaElem = document.forms.postmodify.elements[ila++])
 			{
 				if (ilaElem.name == "attachment[]")
-					ilaAttach += ilaElem.value + ","; 
+					ilaAttach += ilaElem.value + ",";
 			}
 			if (ilaAttach != "")
 				ilaAttach = escape(ilaAttach.slice(0,-1));
