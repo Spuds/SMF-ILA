@@ -7,7 +7,7 @@
  * @copyright (c) 2011 Spuds
  * @license license.txt (included with package) BSD
  *
- * @version 1.2
+ * @version 1.21
  *
  * -----------------------------------------------------------------------------------------------
  *
@@ -15,7 +15,7 @@
  *
  * -----------------------------------------------------------------------------------------------
  */
- 
+
 // Thats just no to you
 if (!defined('SMF'))
 	die('Hacking Attempt...');
@@ -32,7 +32,7 @@ if (!defined('SMF'))
  */
 function ila_parse_bbc(&$message, $id_msg = -1)
 {
-	global $modSettings, $context, $sourcedir, $ila_attachments, $txt, $attachments;
+	global $modSettings, $context, $sourcedir, $ila_attachments, $txt, $topic, $attachments;
 
 	// Set some vars so we don't throw a notice cog and annoy the users
 	$context['ila_dont_show_attach_below'] = array();
@@ -40,9 +40,9 @@ function ila_parse_bbc(&$message, $id_msg = -1)
 	$ila_new_msg_preview = array();
 	$ila_attachments = array();
 	$board = null;
+	$save_topic = '';
 	$start_num = 0;
-	$topic = -1;
-	
+
 	// Mod or BBC disabled, can't do anything !
 	if (empty($modSettings['ila_enabled']) || empty($modSettings['enableBBC']))
 		return;
@@ -51,7 +51,7 @@ function ila_parse_bbc(&$message, $id_msg = -1)
 	if ($id_msg == '' || $id_msg == - 1)
 		$id_msg = (isset($_REQUEST['msg'])) ? (int) $_REQUEST['msg'] : -1;
 
-	// No message id and not previewing a new message ($_REQUEST['ila']) will be set, why bother ?
+	// No message id and not previewing a new message ($_REQUEST['ila'] will be set), why bother ?
 	if ($id_msg == -1 && !isset($_REQUEST['ila']))
 	{
 		// make sure block quotes are cleaned up, then return
@@ -60,14 +60,21 @@ function ila_parse_bbc(&$message, $id_msg = -1)
 	}
 	elseif ($id_msg != -1)
 	{
-		// Lets make sure we have the attachments to work with so we can get the context array
+		// if there is a message number then get the topic and board that *its* from, save what might have been passed (ah portals)
+		$save_topic = !empty($topic) ? $topic : '';
+		list($topic, $board) = ila_get_topic($id_msg);
+
+		// Lets make sure we have the attachments, for this message, to work with so we can get the context array
 		if (!isset($attachments[$id_msg]))
-			$attachments[$id_msg] = ila_load_attachments($id_msg);
+			$attachments[$id_msg] = ila_load_attachments($id_msg, $topic, $board);
 
 		// now get the rest of the details for these attachments
 		if (!function_exists('loadAttachmentContext'))
 			include_once ($sourcedir . '/Display.php');
 		$ila_attachments_context = loadAttachmentContext($id_msg);
+
+		// put it back, whatever it was
+		$topic = $save_topic;
 	}
 
 	// do we have new --- not yet uploaded ---- attachments in either a new or a modified message?
@@ -75,7 +82,7 @@ function ila_parse_bbc(&$message, $id_msg = -1)
 	{
 		$start_num = isset($attachments[$id_msg]) ? count($attachments[$id_msg]) : 0;
 		$ila_temp = explode(',', $_REQUEST['ila']);
-		
+
 		foreach($ila_temp as $new_attach)
 		{
 			$start_num++; // add at the end of the currenlty uploaded attachment count index
@@ -88,15 +95,12 @@ function ila_parse_bbc(&$message, $id_msg = -1)
 
 	// Find all of the inline attach tags in this message [attachimg=xx] [attach=xx] [attachthumb=xx] [attachurl=xx] [attachmini=xx] or
 	// some malformed ones like [attachIMG = "xx"] ila_tags[0] will hold the entire tag [1] will hold the attach type (before the ]) eg img=1
+	$ila_tags = array();
 	if (preg_match_all('~\[attach\s*?(.*?(?:".+?")?.*?|.*?)\][\r\n]?~i', $message, $ila_tags))
 	{
 		// load an simple array of elements.  We use it to keep track of attachment number usage in the message body
 		$ila_attachments = !empty($start_num) ? range(1, $start_num) : range(1, count($attachments[$id_msg]));
 		$ila_num = 0;
-
-		// if there is a message number then get the topic and board that its from
-		if ($id_msg != -1)
-			list($topic, $board) = ila_get_topic($id_msg);
 
 		// if they have no permissions to view attachments then we sub out the tag with the appropriate so 'sorry message'
 		if (!allowedTo('view_attachments', $board))
@@ -146,12 +150,13 @@ function ila_parse_bbc(&$message, $id_msg = -1)
  */
 function ila_parse_bbc_tag($data, $attachments, $id_msg, $ila_num, $ila_new_msg_preview)
 {
-	global $context, $ila_attachments;
-	
+	global $ila_attachments;
+
 	$done = array('id' => '', 'type' => '', 'align' => '', 'width' => '');
 	$data = trim($data);
 
 	// find the align tag, save its value and remove it from the data string
+	$matches = array();
 	if (preg_match('~align\s{0,1}=(?:&quot;)?(right|left|center)(?:&quot;)?~i', $data, $matches))
 	{
 		$done['align'] = strtolower($matches[1]);
@@ -167,7 +172,7 @@ function ila_parse_bbc_tag($data, $attachments, $id_msg, $ila_num, $ila_new_msg_
 
 	// all that should be left is the id and tag, split on = to see what we have
 	$temp = array();
-	$result = preg_match('~(.*?)=(\d).*~', $data, $temp);
+	$result = preg_match('~(.*?)=(\d+).*~', $data, $temp);
 	if ($result && $temp[1] != '')
 	{
 		// one of img=1 thumb=1 mini=1 url=1, we hope ;)
@@ -211,7 +216,7 @@ function ila_parse_bbc_tag($data, $attachments, $id_msg, $ila_num, $ila_new_msg_
  * Look for quote blocks with ila attach tags and build the link.
  * Replaces ila attach tags in quotes with a link back to the post with the attachment
  * Prevents ILA from firing on those attach tags should we have a quote block with an attach placed in a message with an attach
- * 
+ *
  * Is painfully complicated as is, should consider other approaches me thinks
  *
  * @param mixed $message
@@ -227,6 +232,7 @@ function ila_find_nested(&$message, $id_msg)
 		return;
 
 	// regexs to seach the message for quotes, nested quotes and quoted text, and tags
+	$regex = array();
 	$regex['quotelinks'] = '~<div\b[^>]*class="topslice_quote">(?:.*?)</div>~si';
 	$regex['ila'] = '~\[attach\s*?(.*?(?:".+?")?.*?|.*?)\][\r\n]?~i';
 
@@ -253,10 +259,10 @@ function ila_find_nested(&$message, $id_msg)
 		if (!empty($blockquote_count))
 		{
 			// flip the array, quotes are outside to inside and links are inside to outside, its a nesting thing to mess with your mind.
-			$link_count = $blockquote_count;
 			$links = array_reverse($links);
 
 			// scrape off anything ahead of a leading quoteheader ... its regular message text, likely between quoted zones
+			$temp = array();
 			if ((strpos($quotes[$start],'<div class="quoteheader">') != 0) && (preg_match('~.*(<div class="quoteheader">.*)~si', $quotes[$start], $temp)))
 				$quotes[$start] = $temp[1];
 
@@ -269,6 +275,7 @@ function ila_find_nested(&$message, $id_msg)
 			{
 				// Search the link to get the msg_id
 				$msg_id = '';
+				$href_temp = array();
 				if (preg_match('~<a href="(?:.*)#(.*?)">~i', $links[$which_link][0], $href_temp) == 1)
 					$msg_id = $href_temp[1];
 
@@ -280,7 +287,7 @@ function ila_find_nested(&$message, $id_msg)
 				if ($msg_id != '')
 				{
 					if (!isset($context['current_topic']))
-						list($topic,$board) = ila_get_topic($id_msg);
+						list($topic, $board) = ila_get_topic($id_msg);
 					else
 						$topic = $context['current_topic'];
 					$linktoquotedmsg = '<a href="' . $scripturl . '/topic,' . $topic . '.' . $msg_id . '.html#' . $msg_id . '">' . $txt['ila_quote_link'] . '</a>';
@@ -289,6 +296,7 @@ function ila_find_nested(&$message, $id_msg)
 					$linktoquotedmsg = $txt['ila_quote_nolink'];
 
 				// The link back is the same for all the ila tags in an individual quoteblock (they all point back to the same message)
+				$ila_tags = array();
 				if (preg_match_all($regex['ila'], $quotes[$i], $ila_tags))
 				{
 					// We have found an ila tag, in this quoted message section
@@ -381,13 +389,13 @@ function ila_showInline($done, $attachments, $id_msg, $ila_num, $ila_new_msg_pre
 	else
 		$attachment = '';
 
+
 	// We found an attachment that matches our attach id in the message
 	if ($attachment != '')
 	{
 		// we need a unique css id for javascript to find the correct image, cant just use the attach id since we allow the users
 		// to use the same attachment many times in the same post.
 		$uniqueID = $attachment['id'] . '-' . $ila_num;
-		$rel_tag = 'ila_' . $id_msg;
 
 		if ($attachment['is_image'])
 		{
@@ -419,7 +427,7 @@ function ila_showInline($done, $attachments, $id_msg, $ila_num, $ila_new_msg_pre
 		// fix any tag option incompatabilities
 		if (!empty($modSettings['ila_alwaysfullsize']))
 			$type = 'img';
-		
+
 		// cant show an image for a non image attachment
 		if ((!$attachment['is_image']) && (in_array($type, $images)))
 			$type = 'url';
@@ -430,9 +438,9 @@ function ila_showInline($done, $attachments, $id_msg, $ila_num, $ila_new_msg_pre
 			// [attachimg=xx -- full sized image type=img
 			case 'img':
 				// Make sure the width its not bigger than the actual image or bigger than allowed by the admin
-				if ($width != '') 
+				if ($width != '')
 					$width = !empty($modSettings['max_image_width']) ? min($width, $attachment['real_width'], $modSettings['max_image_width']) : min($width, $attachment['real_width']);
-				else              
+				else
 					$width = !empty($modSettings['max_image_width']) ? min($attachment['real_width'], $modSettings['max_image_width']) : $attachment['real_width'];
 
 				$ila_title = isset($context['subject']) ? $context['subject'] : (isset($attachment['name']) ? $attachment['name'] : '');
@@ -466,7 +474,7 @@ function ila_showInline($done, $attachments, $id_msg, $ila_num, $ila_new_msg_pre
 				elseif ($attachment['thumbnail']['has_thumb'])
 					$inlinedtext = '<a href="' . $attachment['href'] . ';image" id="link_' . $uniqueID . '" onclick="' . $attachment['thumbnail']['javascript'] . '"><img src="' . $attachment['thumbnail']['href'] . '" alt="' . $uniqueID . '" title="' . $ila_title . '" id="thumb_' . $uniqueID . '"  style="width:' . $width . 'px;border:0;" /></a>';
 				else
-					$inlinedtext = ila_createfakethumb($attachment, $hs4smf, $width, $uniqueID, $id_msg, $rel_tag);
+					$inlinedtext = ila_createfakethumb($attachment, $hs4smf, $width, $uniqueID, $id_msg);
 				break;
 
 			// [attachurl=xx] -- no image, just a link with size/view details type = url
@@ -521,13 +529,12 @@ function ila_showInline($done, $attachments, $id_msg, $ila_num, $ila_new_msg_pre
  * @param mixed $width
  * @param mixed $uniqueID
  * @param mixed $id_msg
- * @param mixed $rel_tag
  * @return
  */
-function ila_createfakethumb($attachment, $hs4smf, $width, $uniqueID, $id_msg, $rel_tag)
+function ila_createfakethumb($attachment, $hs4smf, $width, $uniqueID, $id_msg)
 {
 	global $modSettings, $context;
-	
+
 	// we were requested to show a thumbnail but none exists? how embarrassing, we should hang our heads in shame!
 	// So we create our own thumbnail display using html img width / height attributes on the attached image
 	$dst_width = '';
@@ -587,7 +594,7 @@ function ila_createfakethumb($attachment, $hs4smf, $width, $uniqueID, $id_msg, $
  */
 function ila_preview_inline($attachname, $type, $id, $align, $width)
 {
-	global $txt, $context, $modSettings, $settings;
+	global $txt, $modSettings;
 
 	// we are trying to preview a message but the attachments have not been uploaded, lets sub in a fake image box
 	// with our ILA text so the user can check things are positioned correctly even if they cant yet see the image
@@ -599,18 +606,18 @@ function ila_preview_inline($attachname, $type, $id, $align, $width)
 	{
 		// [attachimg=xx -- full sized image type=img
 		case 'img':
-			if ($width != '') 
+			if ($width != '')
 				$width = !empty($modSettings['max_image_width']) ? min($width, $modSettings['max_image_width']) : $width;
-			else 
+			else
 				$width = !empty($modSettings['max_image_width']) ? min($modSettings['max_image_width'], 400) : 160;
 			$inlinedtext = '<div style="display:-moz-inline-box;display:inline-block;background: white;width:' . $width . 'px;height:' . floor($width / 1.333) . 'px;border:1px solid #000;vertical-align:bottom;">[Attachment:' . $id . ': <strong>' . $attachname . '</strong> ' . $txt[$txt_name] . ']</div>';
 			break;
 
 		// [attach=xx] or depreciated [attachthumb=xx]-- thumbnail
 		case 'none':
-			if ($width != '') 
+			if ($width != '')
 				$width = min($width, isset($modSettings['attachmentThumbWidth']) ? $modSettings['attachmentThumbWidth'] : 160);
-			else 
+			else
 				$width = isset($modSettings['attachmentThumbWidth']) ? $modSettings['attachmentThumbWidth'] : 160;
 			$inlinedtext = '<div style="display:-moz-inline-box;display:inline-block;background: white;width:' . $width . 'px;height:' . floor($width / 1.333) . 'px;border:1px solid #000;vertical-align:bottom;">[Attachment:' . $id . ': <strong>' . $attachname . '</strong> ' . $txt[$txt_name] . ']</div>';
 			break;
@@ -643,16 +650,15 @@ function ila_preview_inline($attachname, $type, $id, $align, $width)
  * @param mixed $msg_id
  * @return
  */
-function ila_load_attachments($msg_id)
+function ila_load_attachments($msg_id, $topic, $board)
 {
-	global $modSettings, $topic, $smcFunc;
+	global $modSettings, $smcFunc;
 
 	$message = array($msg_id);
 	$attachments = array();
-	list($topic,$board) = ila_get_topic($msg_id);
 
 	// with a message id and the topic we can fetch the attachments
-	if (!empty($modSettings['attachmentEnable']) && allowedTo('view_attachments',$board) && $topic != -1)
+	if (!empty($modSettings['attachmentEnable']) && allowedTo('view_attachments', $board) && $topic != -1)
 	{
 		$request = $smcFunc['db_query']('', '
 			SELECT
@@ -684,6 +690,7 @@ function ila_load_attachments($msg_id)
 		foreach ($temp as $row)
 			$attachments[] = $row;
 	}
+
 	return $attachments;
 }
 
@@ -698,7 +705,7 @@ function ila_load_attachments($msg_id)
 function ila_get_topic($msg_id)
 {
 	global $smcFunc;
-	
+
 	// init
 	$topic_and_board = array(-1, null);
 

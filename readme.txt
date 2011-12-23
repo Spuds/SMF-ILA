@@ -12,7 +12,7 @@ This modification adds the ability to position your attachments in your post, li
 
 [color=blue][b][size=12pt][u]Original mods[/u][/size][/b][/color]
 Based on the mod and ideas in :
-- "Inline Attachments" (by mouser - [url=http://www.donationcoder.com/Forums/bb/index.php?topic=13011.0]http://www.donationcoder.com[/url]) 
+- "Inline Attachments" (by mouser - [url=http://www.donationcoder.com/Forums/bb/index.php?topic=13011.0]http://www.donationcoder.com[/url])
 
 [color=blue][b][size=12pt][u]Features[/u][/size][/b][/color]
 o Adds bbcodes [attachimg=n], [attach=n], [attachurl=n] or [attachmini=n] to position attachments within the post.  n is the number of the attachment in the post, eg first = 1, second = 2, etc.
@@ -37,6 +37,10 @@ This mod is compatible with SMF 2.0x.
 Please use the ILA modification thread for support with this modification.
 
 [color=blue][b][size=12pt][u]Changelog[/u][/size][/b][/color]
+[b]1.21 - 22 Dec 2011[/b]
+o ! Fixed issue with left side portal blocks were used on the message view page
+o ! Fixed issue with displaying > 9 ILA attachments in a message introduced in V1.2
+
 [b]1.2 - 04 Dec 2011[/b]
 o + re-Release under proper BSD open license
 o - Simplifed tag support by removed support for [attachment tags in messages (if you are upgrading from a mod that may use these you will need to manually replace those tags in your database.
