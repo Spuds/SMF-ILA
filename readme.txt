@@ -37,7 +37,7 @@ This mod is compatible with SMF 2.0x.
 Please use the ILA modification thread for support with this modification.
 
 [color=blue][b][size=12pt][u]Changelog[/u][/size][/b][/color]
-[b]1.21 - 22 Dec 2011[/b]
+[b]1.21 - 22 Jan 2012[/b]
 o ! Fixed issue with left side portal blocks were used on the message view page
 o ! Fixed issue with displaying > 9 ILA attachments in a message introduced in V1.2
 

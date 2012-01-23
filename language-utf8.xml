@@ -353,7 +353,6 @@ $txt['ila_mini'] = 'como uma ligação compacta';
 	</operation>
 </file>
 
-
 <file name="$languagedir/Help.portuguese-utf8.php" error="skip">
 	<operation>
 		<search position="end" />
