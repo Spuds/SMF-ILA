@@ -1,4 +1,8 @@
 Changelog
+[b]1.21 - 22 Jan 2012[/b]
+o ! Fixed issue with left side portal blocks were used on the message view page
+o ! Fixed issue with displaying > 9 ILA attachments in a message introduced in V1.2
+
 [b]1.2 - 04 Dec 2011[/b]
 o + Release under proper open license
 o - Removed support for [attachment tags in message (if you are upgrading from a mod that uses these you will need to manually replace those tags in your database.

@@ -20,7 +20,7 @@
 	{
 		// Just a dummy comment so whether the portalMX front page is loaded or there is a page you can request to test
 	}
-	elseif (empty($parse_tags) && empty($context['uninstalling']) && !empty($modSettings['ila_enabled']))
+	elseif (empty($parse_tags) && empty($context['uninstalling']) && !empty($modSettings['ila_enabled']) && strpos($message, '[attach') !== false)
 		ila_hide_bbc($message);
 
 	// End ILA in line attachment changes

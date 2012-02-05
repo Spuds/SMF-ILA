@@ -7,7 +7,7 @@
  * @copyright (c) 2011 Spuds
  * @license license.txt (included with package) BSD
  *
- * @version 1.21
+ * @version 1.2.1
  *
  * -----------------------------------------------------------------------------------------------
  *
