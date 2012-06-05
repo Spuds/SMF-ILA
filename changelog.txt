@@ -1,4 +1,7 @@
 Changelog
+[b]1.22 - 13 May 2012[/b]
+o ! Fixed issue with ILA breaking rending of [html] bbc tags
+
 [b]1.21 - 22 Jan 2012[/b]
 o ! Fixed issue with left side portal blocks were used on the message view page
 o ! Fixed issue with displaying > 9 ILA attachments in a message introduced in V1.2

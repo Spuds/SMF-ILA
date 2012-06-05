@@ -332,18 +332,26 @@ function ila_hide_bbc(&$message, $hide_tags = '')
 
 	if (empty($modSettings['enableBBC']))
 		return;
+		
+	if (stripos($message, '[attach') === false)
+		return;
 
 	// if our ila attach tags are nested inside of these tags we need to hide them so they don't fire
 	if ($hide_tags == '')
 		$hide_tags = array('code', 'html', 'php', 'noembed', 'nobbc');
 
-	// look for each tag, if its found hide them by replacing [ with a hex so we don't try to render them later
+	// look for each tag, if attach is found inside then replace its[ with a hex so we don't try to render them later
 	foreach ($hide_tags as $tag)
 	{
 		if (stripos($message, '[' . $tag . ']') !== false)
-			$message = preg_replace('~\[' . $tag . ']((?>[^[]|\[(?!/?' . $tag . '])|(?R))+?)\[/' . $tag . ']~ie',
-				"'[" . $tag . "]' . str_ireplace('[attach', '&#91;attach', '$1') . '[/" . $tag . "]'",
-				$message);
+		{	
+			$message = preg_replace_callback('~\[' . $tag . ']((?>[^[]|\[(?!/?' . $tag . ']))+?)\[/' . $tag . ']~i',
+			function($matches) use($tag)
+			{
+				return "[" . $tag . "]" . str_ireplace("[attach", "&#91;attach", $matches[1]) . "[/" . $tag . "]";
+			},
+			$message);
+		}
 	}
 }
 
@@ -796,4 +804,5 @@ if (!function_exists('stripos'))
 		return strpos(strtolower($haystack), strtolower($needle), $offset);
 	}
 }
+
 ?>
