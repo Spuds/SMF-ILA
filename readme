@@ -30,7 +30,7 @@ o ! Fixed issue with left side portal blocks were used on the message view page
 o ! Fixed issue with displaying > 9 ILA attachments in a message introduced in V1.2
 
 1.2 - 04 Dec 2011
-o + re-Release under proper BSD open license
+o + re-Release under proper open license
 o - Simplifed tag support by removed support for [attachment tags in messages (if you are upgrading from a mod that may use these you will need to manually replace those tags in your database.
 o - Simplied Highslide mod support to only HS4SMF
 o ! Fixed error where [attach] shortcut was not working

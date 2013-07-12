@@ -5,7 +5,7 @@
 [hr]
 
 [color=blue][b][size=12pt][u]License[/u][/size][/b][/color]
-This modification is released under a BSD license, a copy of it with its provisions is included with the package.
+This modification is released under a MPL V1.1 license, a copy of it with its provisions is included with the package.
 
 [color=blue][b][size=12pt][u]Introduction[/u][/size][/b][/color]
 This modification adds the ability to position your attachments in your post, like the IMG tag, using newly created BBC codes. This is useful for inserting attachments inline with your text.  Several types of attachments are possible such as : full-size, thumbnail or link. For each attachment you can select how and where the attachment appears within the message. You can also use the same image in multiple areas in the same post. You can of course still have the attachment at the bottom of the post as is the SMF default.
