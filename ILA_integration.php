@@ -84,7 +84,7 @@ function ila_integrate_modify_modifications(&$sub_actions)
  */
 function ModifyilaSettings($return_config = false)
 {
-	global $txt, $scripturl, $context, $smcFunc, $sourcedir;
+	global $txt, $scripturl, $context;
 
 	$context[$context['admin_menu_name']]['tab_data']['tabs']['ila']['description'] = $txt['ila_desc'];
 	$config_vars = array(
@@ -116,5 +116,3 @@ function ModifyilaSettings($return_config = false)
 
 	prepareDBSettingContext($config_vars);
 }
-
-?>

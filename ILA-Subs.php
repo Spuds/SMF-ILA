@@ -332,7 +332,7 @@ function ila_hide_bbc(&$message, $hide_tags = '')
 
 	if (empty($modSettings['enableBBC']))
 		return;
-		
+
 	if (stripos($message, '[attach') === false)
 		return;
 
@@ -344,7 +344,7 @@ function ila_hide_bbc(&$message, $hide_tags = '')
 	foreach ($hide_tags as $tag)
 	{
 		if (stripos($message, '[' . $tag . ']') !== false)
-		{	
+		{
 			$message = preg_replace_callback('~\[' . $tag . ']((?>[^[]|\[(?!/?' . $tag . ']))+?)\[/' . $tag . ']~i',
 			function($matches) use($tag)
 			{
@@ -804,5 +804,3 @@ if (!function_exists('stripos'))
 		return strpos(strtolower($haystack), strtolower($needle), $offset);
 	}
 }
-
-?>

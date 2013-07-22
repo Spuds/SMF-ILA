@@ -5,7 +5,16 @@
 	<id>spuds:ILA</id>
 	<version>1.2.1</version>
 	<type>modification</type>
-	
+	<license><![CDATA[
+/**
+ * InLine Attachments
+ *
+ * @license MPL 1.1 http://mozilla.org/MPL/1.1/
+ *
+ * @version 1.1
+ */
+]]></license>
+
 	<install for="2.0 - 2.0.99">
 		<database>add_settings.php</database>
 		<modification>install-2.0.xml</modification>
@@ -18,7 +27,7 @@
 		<modification>language-utf8.xml</modification>
 		<redirect url="index.php?action=admin;area=modsettings;sa=ila" timeout="5000">redirect.txt</redirect>
 	</install>
-	
+
 	<uninstall for="2.0 - 2.0.99">
 		<code>add_remove_hooks.php</code>
 		<modification reverse="true">install-2.0.xml</modification>

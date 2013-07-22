@@ -18,7 +18,7 @@ elseif (!defined('SMF')) // If we are outside SMF and can't find SSI.php, then t
 
 if (SMF == 'SSI')
 	db_extend('packages');
-	
+
 // Define the hooks
 $hook_functions = array(
 	'integrate_bbc_codes' => 'ila_bbc_add_code',
@@ -42,6 +42,4 @@ foreach ($hook_functions as $hook => $function)
 	$call($hook, $function);
 
 if (SMF == 'SSI')
-   echo 'Congratulations! You have successfully installed The Hooks for ILA!';
-
-?>
+   echo 'Congratulations! You have successfully installed the integration hooks for ILA!';
