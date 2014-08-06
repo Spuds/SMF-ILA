@@ -31,7 +31,7 @@
 	</operation>
 
 	<operation>
-		<search position="after"><![CDATA[	// Cache the output if it took some time...]]></search>
+		<search position="after"><![CDATA[// Cache the output if it took some time...]]></search>
 		<add><![CDATA[
 	// ILA in line attachment changes
 
@@ -172,7 +172,7 @@
 		<search position="replace" error="ignore"><![CDATA[		foreach ($context['current_attachments'] as $attachment)
 			echo '
 						<dd class="smalltext">
-							<label for="attachment_', $attachment['id'], '"><input type="checkbox" id= "attachment_', $attachment['id'], '" name="attach_del[]" value="', $attachment['id'], '"', empty($attachment['unchecked']) ? ' checked="checked"' : '', ' class="input_check" /> ', $attachment['name'], (empty($attachment['approved']) ? ' (' . $txt['awaiting_approval'] . ')' : ''), '</label>
+							<label for="attachment_', $attachment['id'], '"><input type="checkbox" id="attachment_', $attachment['id'], '" name="attach_del[]" value="', $attachment['id'], '"', empty($attachment['unchecked']) ? ' checked="checked"' : '', ' class="input_check" /> ', $attachment['name'], (empty($attachment['approved']) ? ' (' . $txt['awaiting_approval'] . ')' : ''), '</label>
 						</dd>';
 ]]></search>
 		<add><![CDATA[
